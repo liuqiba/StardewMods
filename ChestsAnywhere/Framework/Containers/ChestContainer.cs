@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Netcode;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Menus;
@@ -16,7 +17,7 @@ namespace Pathoschild.Stardew.ChestsAnywhere.Framework.Containers
         private readonly string DefaultName = "Chest";
 
         /// <summary>The in-game chest.</summary>
-        protected readonly Chest Chest;
+        public readonly Chest Chest;
 
         /// <summary>The <see cref="ItemGrabMenu.context"/> value which indicates what opened the menu.</summary>
         private readonly object Context;
@@ -43,7 +44,7 @@ namespace Pathoschild.Stardew.ChestsAnywhere.Framework.Containers
         /// <summary>Whether Automate options can be configured for this chest.</summary>
         public bool CanConfigureAutomate { get; } = true;
 
-
+        public NetObjectList<Item> Items  => this.Chest.items;
         /*********
         ** Public methods
         *********/
@@ -90,6 +91,42 @@ namespace Pathoschild.Stardew.ChestsAnywhere.Framework.Containers
                 ? this.Chest
                 : null;
 
+            switch (Constants.TargetPlatform)
+            {
+                case GamePlatform.Android:
+                    return new ItemGrabMenu(
+                    inventory: this.Inventory,
+                    reverseGrab: true,
+                    showReceivingMenu: true,
+                    highlightFunction: this.CanAcceptItem,
+                    behaviorOnItemSelectFunction: null,
+                    message: null,
+                    behaviorOnItemGrab: null,
+                    canBeExitedWithKey: true,
+                    showOrganizeButton: true,
+                    source: ItemGrabMenu.source_chest,
+                    sourceItem: sourceItem,
+                    context: this.Context
+                );
+                    break;
+                default:
+                   return new ItemGrabMenu(
+                    inventory: this.Inventory,
+                    reverseGrab: false,
+                    showReceivingMenu: true,
+                    highlightFunction: this.CanAcceptItem,
+                    behaviorOnItemSelectFunction: this.GrabItemFromPlayer,
+                    message: null,
+                    behaviorOnItemGrab: this.GrabItemFromContainer,
+                    canBeExitedWithKey: true,
+                    showOrganizeButton: true,
+                    source: ItemGrabMenu.source_chest,
+                    sourceItem: sourceItem,
+                    context: this.Context
+                );
+                    break;
+            }
+            /*
             return Constants.TargetPlatform switch
             {
                 GamePlatform.Android => new ItemGrabMenu(
@@ -121,7 +158,7 @@ namespace Pathoschild.Stardew.ChestsAnywhere.Framework.Containers
                     sourceItem: sourceItem,
                     context: this.Context
                 )
-            };
+            };*/
         }
 
         /// <summary>Persist the container data.</summary>

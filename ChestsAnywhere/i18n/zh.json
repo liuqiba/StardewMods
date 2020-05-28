@@ -18,7 +18,7 @@
     "label.location.tile": "地格 {{x}}, {{y}}",
     "label.name": "名称",
     "label.category": "分类",
-    "label.order": "顺序",
+    "label.order": "顺序111",
     "label.hide-chest": "隐藏此箱子",
     "label.hide-chest-hidden": "隐藏此箱子（你需要亲自找到该箱子撤销隐藏！）",
     "label.automate-store": "[Automate] 把物品放在这个箱子里",
@@ -31,6 +31,7 @@
     "button.sort-inventory": "清单排序",
     "button.save": "保存",
     "button.reset": "重置",
+    "button.sort-all": "自动全排序",
 
     // errors
     "errors.disabled-from-here": "你无法从当前位置访问这个箱子",

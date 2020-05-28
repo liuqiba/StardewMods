@@ -66,6 +66,7 @@ namespace Pathoschild.Stardew.ChestsAnywhere.Menus.Overlays
 
         /// <summary>The configured key bindings.</summary>
         private readonly ModConfigKeys Keys;
+        private readonly IMonitor monitor;
 
         /// <summary>Whether to show the category dropdown.</summary>
         protected bool ShowCategoryDropdown => this.Categories.Length > 1;
@@ -161,6 +162,7 @@ namespace Pathoschild.Stardew.ChestsAnywhere.Menus.Overlays
         {
             ItemGrabMenu.organizeItemsInList(Game1.player.Items);
             Game1.playSound("Ship");
+            this.monitor.Log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",LogLevel.Debug);
         }
 
         /// <summary>Switch to the specified chest.</summary>
@@ -194,7 +196,7 @@ namespace Pathoschild.Stardew.ChestsAnywhere.Menus.Overlays
         /// <param name="showAutomateOptions">Whether to show Automate options.</param>
         /// <param name="keepAlive">Indicates whether to keep the overlay active. If <c>null</c>, the overlay is kept until explicitly disposed.</param>
         /// <param name="topOffset">The Y offset to apply relative to <see cref="IClickableMenu.yPositionOnScreen"/> when drawing the top UI elements.</param>
-        protected BaseChestOverlay(IClickableMenu menu, ManagedChest chest, ManagedChest[] chests, ModConfig config, ModConfigKeys keys, IModEvents events, IInputHelper input, IReflectionHelper reflection, ITranslationHelper translations, bool showAutomateOptions, Func<bool> keepAlive, int topOffset = 0)
+        protected BaseChestOverlay(IClickableMenu menu, ManagedChest chest, ManagedChest[] chests, ModConfig config, ModConfigKeys keys, IModEvents events, IInputHelper input, IReflectionHelper reflection, ITranslationHelper translations, bool showAutomateOptions, Func<bool> keepAlive, int topOffset = 0,IMonitor monitor =null)
             : base(events, input, reflection, keepAlive)
         {
             // data
@@ -214,6 +216,7 @@ namespace Pathoschild.Stardew.ChestsAnywhere.Menus.Overlays
             this.Categories = chests.Select(p => p.DisplayCategory).Distinct().OrderBy(p => p).ToArray();
             this.Config = config;
             this.Keys = keys;
+            this.monitor = monitor;
         }
 
         /// <summary>Draw the overlay to the screen.</summary>
@@ -735,6 +738,11 @@ namespace Pathoschild.Stardew.ChestsAnywhere.Menus.Overlays
         private ManagedChest[] GetChestsFromCategory(string category)
         {
             return this.Chests.Where(chest => chest.DisplayCategory == category).ToArray();
+        }
+
+        protected ManagedChest[] GetAllChest()
+        {
+            return this.Chests;
         }
 
         /// <summary>Set whether the chest or inventory items should be clickable.</summary>

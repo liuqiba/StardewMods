@@ -410,7 +410,7 @@ namespace Pathoschild.Stardew.Common
         /// <param name="detailedVerb">A more detailed form of <see cref="verb"/> if applicable. This is displayed in the log, so it can be more technical and isn't constrained by the sprite font.</param>
         public static void InterceptError(this IMonitor monitor, Exception ex, string verb, string detailedVerb = null)
         {
-            detailedVerb ??= verb;
+            detailedVerb = detailedVerb ?? verb;
             monitor.Log($"Something went wrong {detailedVerb}:\n{ex}", LogLevel.Error);
             CommonHelper.ShowErrorMessage($"Huh. Something went wrong {verb}. The error log has the technical details.");
         }

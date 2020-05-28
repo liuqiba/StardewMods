@@ -37,8 +37,8 @@ namespace Pathoschild.Stardew.ChestsAnywhere.Menus.Overlays
         /// <param name="reflection">Simplifies access to private code.</param>
         /// <param name="translations">Provides translations stored in the mod's folder.</param>
         /// <param name="showAutomateOptions">Whether to show Automate options.</param>
-        public ShopMenuOverlay(ShopMenu menu, ManagedChest chest, ManagedChest[] chests, ModConfig config, ModConfigKeys keys, IModEvents events, IInputHelper input, IReflectionHelper reflection, ITranslationHelper translations, bool showAutomateOptions)
-            : base(menu, chest, chests, config, keys, events, input, reflection, translations, showAutomateOptions, keepAlive: () => Game1.activeClickableMenu is ShopMenu, topOffset: Game1.pixelZoom * 6)
+        public ShopMenuOverlay(ShopMenu menu, ManagedChest chest, ManagedChest[] chests, ModConfig config, ModConfigKeys keys, IModEvents events, IInputHelper input, IReflectionHelper reflection, ITranslationHelper translations, bool showAutomateOptions,IMonitor monitor)
+            : base(menu, chest, chests, config, keys, events, input, reflection, translations, showAutomateOptions, keepAlive: () => Game1.activeClickableMenu is ShopMenu, topOffset: Game1.pixelZoom * 6,monitor)
         {
             this.Menu = menu;
             this.DefaultPurchaseFilter = menu.canPurchaseCheck;
